@@ -132,5 +132,3 @@ Cumplimiento del requisito RF17: trazabilidad completa de acciones realizadas po
 ### Figura 6. Módulo de bitácora (auditoría del sistema).
 <img width="1911" height="727" alt="image" src="https://github.com/user-attachments/assets/f677dfa7-84a7-49cf-86fa-60bd088b3fb7" />
 
-🚀 7. Despliegue de la Aplicación
-Link: 
