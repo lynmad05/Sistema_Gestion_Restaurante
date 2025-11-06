@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!-- 1. Carga el fragmento HEAD (CSS, meta tags, Minty theme) -->
+<head th:replace="~{fragments/header :: head}">
+    <title>Bitácora de Auditoría</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<!-- 2. Carga el fragmento NAVBAR (Barra de Navegación) -->
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container mt-4 mb-5 flex-grow-1">
+    <!-- Título principal con estilo Minty -->
+    <h2 class="page-title mb-4">📜 Bitácora de Auditoría (AOP)</h2>
+
+    <!-- Botón de retorno: Vuelve a la página de inicio (/) con el ícono de casa -->
+    <a th:href="@{/}" class="btn btn-outline-secondary btn-sm mb-4">
+        <i class="fas fa-home me-1"></i> Volver al Inicio
+    </a>
+
+    <!-- Tabla de la Bitácora -->
+    <div class="table-responsive shadow-sm rounded-lg overflow-hidden">
+        <table class="table table-hover table-striped table-borderless">
+            <thead class="bg-success text-white">
+            <tr>
+                <th>ID</th>
+                <th>Fecha/Hora</th>
+                <th>Tabla Afectada</th>
+                <th>Acción</th>
+                <th>Detalle</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="registro : ${registros}">
+                <td th:text="${registro.idBitacora}">1</td>
+                <td th:text="${#temporals.format(registro.fechaHora, 'dd-MM-yyyy HH:mm:ss')}">01-01-2025 10:00:00</td>
+                <td th:text="${registro.tablaAfectada}">Cliente</td>
+                <!-- Colorea la acción: CREAR (verde), ACTUALIZAR (azul), ELIMINAR (rojo) -->
+                <td th:text="${registro.accion}"
+                    th:classappend="${registro.accion == 'CREAR'} ? 'text-success fw-bold' :
+                                       (${registro.accion == 'ACTUALIZAR'} ? 'text-primary' :
+                                       (${registro.accion == 'ELIMINAR'} ? 'text-danger fw-bold' : ''))">
+                    CREAR
+                </td>
+                <td th:text="${registro.detalle}">Cliente con ID 5 creado.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
+
+<!-- 3. Pie de página (Footer) -->
+<footer class="footer mt-auto py-3 bg-light border-top">
+    <div class="container text-center text-muted">
+        <small>&copy; [[${#dates.year(#dates.createNow())}]] Sabor Gourmet | Sistema de Gestión de Restaurantes.</small>
+    </div>
+</footer>
+
+<!-- 4. Carga el fragmento SCRIPTS (JavaScript de Bootstrap) -->
+<th:block th:replace="~{fragments/header :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Sabor Gourmet - Panel de Control</title>
+
+    <!-- Fragmento de cabecera base (uso de sintaxis moderna) -->
+    <th:block th:replace="~{fragments/header :: head}"></th:block>
+
+    <!-- Carga de Estilos Específicos para este tema (Minty) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/minty/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* Estilos personalizados heredados del diseño Minty que te gusta */
+        body {
+            background-color: #f0f8f8; /* Un fondo suave para complementar Minty */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .navbar-custom {
+            /* Definido aquí porque el fragmento de navbar podría no tenerlo */
+            background-color: #278036;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar-brand, .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+        .navbar-brand:hover, .nav-link:hover {
+            color: #278036 !important;
+        }
+        .hero-section {
+            /* Imagen de fondo del encabezado con el efecto de sombra que querías */
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            margin-bottom: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .hero-section h1 {
+            font-size: 3.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        .hero-section p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+        }
+        .card-module {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background-color: #fff;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card-module:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(39, 128, 54, 0.4);
+        }
+        .card-module img {
+            height: 180px;
+            object-fit: cover;
+            width: 100%;
+        }
+        .card-body {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #278036;
+            margin-bottom: 10px;
+        }
+        .card-text {
+            color: #5a5a5a;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .btn-card {
+            background-color: #278036;
+            border-color: #278036;
+            font-weight: 600;
+            padding: 10px 25px;
+            border-radius: 8px;
+        }
+        .btn-card:hover {
+            background-color: #1f642a;
+            border-color: #1f642a;
+        }
+    </style>
+</head>
+<body>
+
+<!-- INYECCIÓN DEL FRAGMENTO NAVBAR (uso de sintaxis moderna) -->
+<th:block th:replace="~{fragments/header :: navbar}"></th:block>
+
+<div class="hero-section">
+    <div class="container">
+        <h1 class="text-white">Gestión Integral para tu Restaurante</h1>
+        <p class="lead">Bienvenido(a) a Sabor Gourmet, <span sec:authentication="name">Usuario</span>. Administre su negocio con facilidad y eficiencia.</p>
+    </div>
+</div>
+<div class="container-fluid mt-3">
+    <h2 class="text-center mb-5 text-primary">Nuestros Módulos Principales</h2>
+
+    <!-- Fila que llena todo el ancho -->
+    <div class="row">
+
+        <!-- MÓDULO: CLIENTES -->
+        <div class="col-md-6 col-lg-3 mb-4" sec:authorize="hasRole('ADMIN')">
+            <div class="card card-module">
+                <img src="https://media.gq.com.mx/photos/6464e9ca89738f0d95c7fdbc/master/w_1600%2Cc_limit/cena-restaurante.jpg"
+                     class="card-img-top" alt="Clientes">
+                <div class="card-body">
+                    <h5 class="card-title">Gestión de Clientes</h5>
+                    <p class="card-text">
+                        Administre la información de sus clientes, historial de visitas y preferencias.
+                        Personalice la experiencia.
+                    </p>
+                    <a th:href="@{/clientes}" class="btn btn-card w-100">
+                        <i class="fas fa-users me-2"></i> Ir a Clientes
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO: MESAS -->
+        <div class="col-md-6 col-lg-3 mb-4" sec:authorize="hasRole('ADMIN')">
+            <div class="card card-module">
+                <img src="https://media.hellofresh.com/w_3840,q_auto,f_auto,c_fill,fl_lossy/hellofresh_s3/image/HF_Y24_R16_W36_ES_ESSGP26858-2_Main_R_swap_salad_mix_edit_high-75970936.jpg"
+                     class="card-img-top" alt="Mesas">
+                <div class="card-body">
+                    <h5 class="card-title">Gestión de Mesas</h5>
+                    <p class="card-text">
+                        Organice y supervise la disponibilidad de las mesas. Optimice la capacidad de su restaurante.
+                    </p>
+                    <a th:href="@{/mesas}" class="btn btn-card w-100">
+                        <i class="fas fa-utensils me-2"></i> Ir a Mesas
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO: USUARIOS -->
+        <div class="col-md-6 col-lg-3 mb-4" sec:authorize="hasRole('ADMIN')">
+            <div class="card card-module">
+                <img src="https://conexionpos.com/wp-content/uploads/2025/05/version-gourmet-3.jpg"
+                     class="card-img-top" alt="Usuarios">
+                <div class="card-body">
+                    <h5 class="card-title">Gestión de Usuarios</h5>
+                    <p class="card-text">
+                        Crea, edita y gestiona las cuentas de acceso y los roles del personal de su restaurante.
+                    </p>
+                    <a th:href="@{/usuarios}" class="btn btn-card w-100">
+                        <i class="fas fa-user-lock me-2"></i> Ir a Usuarios
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO: BITÁCORA -->
+        <div class="col-md-6 col-lg-3 mb-4" sec:authorize="hasRole('ADMIN')">
+            <div class="card card-module">
+                <img src="https://revistadiners.com.co/wp-content/uploads/2019/12/portada_santamarta_1200x800.jpg"
+                     class="card-img-top" alt="Bitácora">
+                <div class="card-body">
+                    <h5 class="card-title">Bitácora de Auditoría</h5>
+                    <p class="card-text">
+                        Acceda al registro detallado de todas las acciones y eventos importantes del sistema.
+                    </p>
+                    <a th:href="@{/bitacora}" class="btn btn-card w-100">
+                        <i class="fas fa-book-open me-2"></i> Ver Bitácora
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Mensaje para otros roles -->
+    <div sec:authorize-unless="hasRole('ADMIN')"
+         sec:authorize="isAuthenticated()"
+         class="col-12 mt-4">
+        <div class="alert alert-info text-center" role="alert">
+            Bienvenido(a) a Sabor Gourmet, <span sec:authentication="name">Usuario</span>.
+            Su rol actual le permite acceder a las funcionalidades disponibles en el menú superior.
+        </div>
+    </div>
+</div>
+
+
+<!-- Scripts de Bootstrap y otros fragmentos (uso de sintaxis moderna) -->
+<th:block th:replace="~{fragments/header :: scripts}"></th:block>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

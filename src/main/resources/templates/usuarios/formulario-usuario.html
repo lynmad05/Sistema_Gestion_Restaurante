@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title th:text="'Sabor Gourmet - ' + ${accion} + ' Usuario'"></title>
+    <th:block th:replace="fragments/header :: head"></th:block>
+</head>
+<body>
+<div th:replace="fragments/header :: navbar"></div>
+
+<div class="container mt-5">
+    <div class="card shadow-lg mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-primary text-white">
+            <h3 class="my-1"><i th:classappend="${accion == 'Crear' ? 'fas fa-user-plus' : 'fas fa-user-edit'}" class="me-2"></i>
+                <span th:text="${accion}"></span> Usuario
+            </h3>
+        </div>
+        <div class="card-body">
+
+            <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post">
+                <input type="hidden" th:field="*{idUsuario}">
+
+                <div class="mb-3">
+                    <label for="nombreUsuario" class="form-label">Nombre de Usuario:</label>
+                    <input type="text" id="nombreUsuario" th:field="*{nombreUsuario}" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="contrasena" class="form-label">Contraseña:</label>
+                    <input type="password" id="contrasena" th:field="*{contrasena}" class="form-control"
+                           th:required="${accion == 'Crear'}">
+                    <div th:if="${accion == 'Editar'}" class="form-text text-muted">Deje vacío si no desea cambiar la contraseña.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="rol" class="form-label">Rol:</label>
+                    <select id="rol" th:field="*{rol}" class="form-select" required>
+                        <option value="">-- Seleccione un Rol --</option>
+                        <option th:each="rol : ${roles}" th:value="${rol}" th:text="${rol}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="estado" th:field="*{estado}" role="switch" checked>
+                    <label class="form-check-label" for="estado">Usuario Activo</label>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i th:classappend="${accion == 'Crear' ? 'fas fa-save' : 'fas fa-check'}" class="me-2"></i>
+                        <span th:text="${accion}"></span> Usuario
+                    </button>
+                    <a th:href="@{/usuarios}" class="btn btn-outline-secondary">
+                        <i class="fas fa-undo me-2"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="fragments/header :: scripts"></th:block>
+</body>
+</html>l>

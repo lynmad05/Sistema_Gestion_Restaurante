@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Sabor Gourmet - Gestión de Usuarios</title>
+    <th:block th:replace="fragments/header :: head"></th:block>
+</head>
+<body>
+<div th:replace="fragments/header :: navbar"></div>
+
+<div class="container mt-5">
+    <h1 class="page-title"><i class="fas fa-user-shield me-2"></i> Gestión de Usuarios y Roles</h1>
+
+    <div th:if="${success}" class="alert alert-dismissible alert-success">
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-dismissible alert-danger">
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <a th:href="@{/usuarios/nuevo}" class="btn btn-success mb-4">
+        <i class="fas fa-user-plus me-1"></i> Crear Nuevo Usuario
+    </a>
+
+    <table class="table table-hover table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre de Usuario</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="usuario : ${usuarios}">
+            <td th:text="${usuario.idUsuario}">1</td>
+            <td th:text="${usuario.nombreUsuario}">admin</td>
+            <td>
+                <span th:classappend="${usuario.rol == 'ADMIN' ? 'badge bg-primary' :
+                                       (usuario.rol == 'MOZO' ? 'badge bg-info' :
+                                       (usuario.rol == 'COCINERO' ? 'badge bg-warning' : 'badge bg-secondary'))}"
+                      th:text="${usuario.rol}">ADMIN</span>
+            </td>
+            <td>
+                 <span th:classappend="${usuario.estado ? 'badge bg-success' : 'badge bg-danger'}"
+                       th:text="${usuario.estado ? 'Activo' : 'Inactivo'}">Activo</span>
+            </td>
+            <td class="text-center">
+                <a th:href="@{/usuarios/editar/{id}(id=${usuario.idUsuario})}" class="btn btn-sm btn-warning me-2">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
+                <th:block sec:authorize="isAuthenticated()">
+                    <!-- CORRECCIÓN CLAVE: Uso del operador de navegación segura (?) para evitar NullPointerException. -->
+                    <a th:if="${#authentication?.principal?.username != usuario.nombreUsuario}"
+                       th:href="@{/usuarios/eliminar/__${usuario.idUsuario}__}"
+                       class="btn btn-sm btn-danger"
+                       onclick="return confirm('¿Está seguro de eliminar este usuario?');"
+                       title="Eliminar">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </th:block>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${#lists.isEmpty(usuarios)}" class="alert alert-info text-center mt-4">
+        No se encontraron usuarios registrados en el sistema.
+    </div>
+</div>
+
+<th:block th:replace="fragments/header :: scripts"></th:block>
+</body>
+</html>

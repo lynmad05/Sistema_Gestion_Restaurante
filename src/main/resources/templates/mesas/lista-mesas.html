@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Sabor Gourmet - Gestión de Mesas</title>
+    <th:block th:replace="fragments/header :: head"></th:block>
+</head>
+<body>
+<div th:replace="fragments/header :: navbar"></div>
+
+<div class="container mt-5">
+    <h1 class="page-title"><i class="fas fa-utensils me-2"></i> Gestión de Mesas</h1>
+
+    <div class="d-flex justify-content-between mb-4">
+        <a th:href="@{/mesas/nuevo}" class="btn btn-success">
+            <i class="fas fa-plus-circle me-1"></i> Agregar Nueva Mesa
+        </a>
+        <a th:href="@{/bitacora}" class="btn btn-secondary">
+            <i class="fas fa-book-open me-1"></i> Ver Bitácora
+        </a>
+    </div>
+
+    <div th:if="${success}" class="alert alert-dismissible alert-success">
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-dismissible alert-danger">
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <table class="table table-hover table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Número</th>
+            <th>Capacidad</th>
+            <th><i class="fas fa-circle-notch me-1"></i> Estado (RF3)</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="mesa : ${mesas}">
+            <td th:text="${mesa.idMesa}">1</td>
+            <td th:text="${mesa.numero}">M1</td>
+            <td th:text="${mesa.capacidad} + ' Personas'">4 Personas</td>
+            <td>
+                <span th:classappend="${mesa.estado.name() == 'DISPONIBLE' ? 'badge bg-success' :
+                                       (mesa.estado.name() == 'OCUPADA' ? 'badge bg-warning' : 'badge bg-danger')}"
+                      th:text="${mesa.estado.name()}">DISPONIBLE</span>
+            </td>
+            <td class="text-center">
+                <th:block sec:authorize="hasRole('ADMIN')">
+
+                    <a th:if="${mesa.estado.name() == 'DISPONIBLE'}"
+                       th:href="@{/mesas/asignar/{id}(id=${mesa.idMesa})}"
+                       class="btn btn-sm btn-info me-2">
+                        <i class="fas fa-handshake"></i> Asignar
+                    </a>
+
+                    <a th:if="${mesa.estado.name() == 'OCUPADA'}"
+                       th:href="@{/mesas/liberar/{id}(id=${mesa.idMesa})}"
+                       class="btn btn-sm btn-primary me-2">
+                        <i class="fas fa-check-circle"></i> Liberar
+                    </a>
+
+                    <a th:href="@{/mesas/editar/{id}(id=${mesa.idMesa})}" class="btn btn-sm btn-warning me-2">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <a th:href="@{/mesas/eliminar/{id}(id=${mesa.idMesa})}" class="btn btn-sm btn-danger"
+                       onclick="return confirm('¿Seguro de eliminar la mesa?');">
+                        <i class="fas fa-trash-alt"></i> Eliminar
+                    </a>
+                </th:block>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<th:block th:replace="fragments/header :: scripts"></th:block>
+</body>
+</html>
