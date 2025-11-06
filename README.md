@@ -116,9 +116,11 @@ Cumplimiento del requisito RF17: trazabilidad completa de acciones realizadas po
 ### Figura 1. Pantalla de inicio de sesión con validación de credenciales.
 
 <img width="1821" height="859" alt="image" src="https://github.com/user-attachments/assets/84d7d1f6-91eb-497a-a4f7-bdebba498c9f" />
-### Figura 2. Página principal o pantalla de inicio (Home)
+
+###  Figura 2. Página principal o pantalla de inicio (Home)
 <img width="1901" height="850" alt="image" src="https://github.com/user-attachments/assets/0e121211-b6c3-48b1-80a5-eb1c7339cf1f" />
-### Figura 3. Módulo de gestión de clientes.
+
+###  Figura 3. Módulo de gestión de clientes.
 <img width="1913" height="507" alt="image" src="https://github.com/user-attachments/assets/9a730d69-6837-4aa1-87af-0a1b9c190b88" />
 
 ### Figura 4. Módulo de gestión de mesas.
